@@ -1,5 +1,6 @@
 #include "simInstPrinter.h"
 #include "MCTargetDesc/simInfo.h"
+#include "MCTargetDesc/simMCExpr.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/MC/MCExpr.h"
 #include "llvm/MC/MCInst.h"

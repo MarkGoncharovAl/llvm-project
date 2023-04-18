@@ -666,6 +666,12 @@ enum {
 #include "ELFRelocs/RISCV.def"
 };
 
+// ELF Relocation types for sim
+enum {
+#include "ELFRelocs/sim.def"
+};
+
+
 enum {
   // Symbol may follow different calling convention than the standard calling
   // convention.
@@ -985,6 +991,7 @@ enum : unsigned {
   SHT_MSP430_ATTRIBUTES = 0x70000003U,
 
   SHT_RISCV_ATTRIBUTES = 0x70000003U,
+  SHT_sim_ATTRIBUTES = 0x70000003U,
 
   SHT_HIPROC = 0x7fffffff, // Highest processor arch-specific type.
   SHT_LOUSER = 0x80000000, // Lowest type reserved for applications.
