@@ -1,6 +1,6 @@
 #include "sim.h"
 #include "simSubtarget.h"
-//#include "MCTargetDesc/simMCExpr.h"
+#include "MCTargetDesc/simMCExpr.h"
 #include "llvm/CodeGen/AsmPrinter.h"
 #include "llvm/CodeGen/MachineBasicBlock.h"
 #include "llvm/CodeGen/MachineInstr.h"
@@ -18,6 +18,52 @@ static MCOperand lowerSymbolOperand(const MachineOperand &MO, MCSymbol *Sym,
                                     const AsmPrinter &AP) {
   MCContext &Ctx = AP.OutContext;
 
+  simMCExpr::VariantKind Kind;
+
+  switch (MO.getTargetFlags()) {
+  default:
+    llvm_unreachable("Unknown target flag on GV operand");
+  case simII::MO_None:
+    Kind = simMCExpr::VK_sim_None;
+    break;
+  case simII::MO_CALL:
+    Kind = simMCExpr::VK_sim_CALL;
+    break;
+  case simII::MO_PLT:
+    Kind = simMCExpr::VK_sim_CALL_PLT;
+    break;
+  case simII::MO_LO:
+    Kind = simMCExpr::VK_sim_LO;
+    break;
+  case simII::MO_HI:
+    Kind = simMCExpr::VK_sim_HI;
+    break;
+  case simII::MO_PCREL_LO:
+    Kind = simMCExpr::VK_sim_PCREL_LO;
+    break;
+  case simII::MO_PCREL_HI:
+    Kind = simMCExpr::VK_sim_PCREL_HI;
+    break;
+  case simII::MO_GOT_HI:
+    Kind = simMCExpr::VK_sim_GOT_HI;
+    break;
+  case simII::MO_TPREL_LO:
+    Kind = simMCExpr::VK_sim_TPREL_LO;
+    break;
+  case simII::MO_TPREL_HI:
+    Kind = simMCExpr::VK_sim_TPREL_HI;
+    break;
+  case simII::MO_TPREL_ADD:
+    Kind = simMCExpr::VK_sim_TPREL_ADD;
+    break;
+  case simII::MO_TLS_GOT_HI:
+    Kind = simMCExpr::VK_sim_TLS_GOT_HI;
+    break;
+  case simII::MO_TLS_GD_HI:
+    Kind = simMCExpr::VK_sim_TLS_GD_HI;
+    break;
+  }
+
   const MCExpr *ME =
       MCSymbolRefExpr::create(Sym, MCSymbolRefExpr::VK_None, Ctx);
 
@@ -25,6 +71,8 @@ static MCOperand lowerSymbolOperand(const MachineOperand &MO, MCSymbol *Sym,
     ME = MCBinaryExpr::createAdd(
         ME, MCConstantExpr::create(MO.getOffset(), Ctx), Ctx);
 
+  if (Kind != simMCExpr::VK_sim_None)
+    ME = simMCExpr::create(ME, Kind, Ctx);
   return MCOperand::createExpr(ME);
 }
 

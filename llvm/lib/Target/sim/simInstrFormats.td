@@ -71,6 +71,8 @@ class simInst<dag outs, dag ins, string opcodestr, string argstr,
   dag InOperandList = ins;
   let AsmString = opcodestr # "\t" # argstr;
   let Pattern = pattern;
+
+  let TSFlags{4-0} = format.Value;
 }
 
 // Pseudo instructions

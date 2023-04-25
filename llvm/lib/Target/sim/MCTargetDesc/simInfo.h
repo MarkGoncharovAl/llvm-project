@@ -13,12 +13,11 @@ namespace simII {
 enum {
   InstFormatPseudo = 0,
   InstFormatR = 1,
-  InstFormatR4 = 2,
-  InstFormatI = 3,
-  InstFormatS = 4,
-  InstFormatB = 5,
-  InstFormatU = 6,
-  InstFormatJ = 7,
+  InstFormatI = 2,
+  InstFormatS = 3,
+  InstFormatB = 4,
+  InstFormatU = 5,
+  InstFormatJ = 6,
 
   InstFormatMask = 31,
   InstFormatShift = 0,

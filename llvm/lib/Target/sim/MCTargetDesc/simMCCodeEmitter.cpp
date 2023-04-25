@@ -361,8 +361,9 @@ unsigned simMCCodeEmitter::getImmOpValue(const MCInst &MI, unsigned OpNo,
       FixupKind = sim::fixup_sim_jal;
     } else if (MIFrm == simII::InstFormatB) {
       FixupKind = sim::fixup_sim_branch;
-    }
-    llvm_unreachable("Unhandled fixup");
+    } else {
+      llvm_unreachable("Unhandled fixup");
+    } 
     // } else if (MIFrm == simII::InstFormatCJ) {
     //   FixupKind = sim::fixup_sim_rvc_jump;
     // } else if (MIFrm == simII::InstFormatCB) {
