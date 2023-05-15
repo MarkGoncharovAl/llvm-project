@@ -131,9 +131,9 @@ StringRef llvm::object::getELFRelocationTypeName(uint32_t Machine,
       break;
     }
     break;
-  case ELF::EM_sim:
+  case ELF::EM_mag:
     switch (Type) {
-      #include "llvm/BinaryFormat/ELFRelocs/sim.def"
+      #include "llvm/BinaryFormat/ELFRelocs/mag.def"
       default:
         break;
     }
